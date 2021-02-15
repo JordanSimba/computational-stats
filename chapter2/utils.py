@@ -106,6 +106,7 @@ if __name__ == "__main__":
 
     optimal_mu, max_likelihood = get_max_likelihood(normal_likelihood, (8,12))
 
-    print(optimal_mu, max_likelihood)
+    expected_mu = 9.83
+    assert abs(optimal_mu - expected_mu) < 0.1, "Mu value is off!"
 
 
