@@ -54,9 +54,9 @@ def log_likelihood(distribution, sample, fix_params):
     (Only univariate problem supported)
 
     Args:
-        distribution ([type]): [description]
-        sample ([type]): [description]
-        fix_params ([type]): [description]
+       distribution (type: function): function representing distribution
+        sample (type: list): list of observations sampled from the distribution
+        fix_params (type: dictionary): Dictionary of parameters to fix
     """
     
     funcs = fix_distribution_params(distribution, sample, fix_params)
