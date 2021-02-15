@@ -2,8 +2,6 @@ import autograd.numpy as np
 
 from functools import partial
 
-def foo():
-    return "foo"
 
 def cauchy_distribution(x, loc, scale):
     expr = 1 + ((x - loc) / scale) ** 2
