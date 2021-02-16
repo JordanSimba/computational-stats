@@ -1,5 +1,6 @@
+import logging
 import autograd.numpy as np
-
+from autograd import grad
 from functools import partial
 
 
@@ -66,8 +67,39 @@ def log_likelihood(distribution, sample, fix_params):
 
     return _func
 
-# Tests 
 
+def newton_raphson(func, start_guess, max_iters, enable_logging=False):
+    raphson_logger = logging.getLogger("Newton-Raphson")
+    if enable_logging:
+        raphson_logger.setLevel(logging.INFO)
+    else:
+        raphson_logger.setLevel(logging.FATAL)
+
+    raphson_logger.info("\titeration\txn\tstep\tf(x)\tf\'(x)")
+        
+    if isinstance(start_guess, int):
+        # https://github.com/HIPS/autograd/issues/482
+        start_guess = float(start_guess)
+
+    tol = 1e-6
+    func_prime = grad(func)
+    
+    x = start_guess
+    for iteration in range(0, max_iters):
+        fx = func(x)
+        fprime_x = func_prime(x)
+
+        h = ( fx / fprime_x )
+        raphson_logger.info(f"\t{iteration}\t{x}\t{h}\t{fx}\t{fprime_x}")
+        
+        if abs(h) < tol:
+            break 
+
+        x = x - h
+    return x
+
+
+# Tests 
 if __name__ == "__main__":
     
     data = [9,9.5,11]
